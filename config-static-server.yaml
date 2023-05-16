@@ -1,0 +1,45 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Remover script de instalação do NodeSource, se existir
+      file:
+        path: /tmp/node_setup.sh
+        state: absent
+
+    - name: Baixar script de instalação do NodeSource
+      uri:
+        url: https://rpm.nodesource.com/setup_14.x
+        dest: /tmp/node_setup.sh
+
+    - name: Executar script de instalação do NodeSource
+      command: sudo bash /tmp/node_setup.sh
+
+    - name: Instalar Node.js
+      yum:
+        name: nodejs
+        state: present
+
+    - name: Instalar npm
+      yum:
+        name: npm
+        state: present
+
+    - name: Instalar PM2 globalmente
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+    - name: transfer file HTML
+      copy:
+        src: ./index.html
+        dest: /var/www/html/
+
+    - name: open port 8080
+      firewalld:
+        port: 8080/tcp
+        permanent: true
+        state: enabled
+
+    - name: Expor arquivo HTML com PM2
+      command: pm2 serve /var/www/html --port 8080
