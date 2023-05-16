@@ -14,15 +14,13 @@
     - name: Executar script de instalação do NodeSource
       command: sudo bash /tmp/node_setup.sh
 
-    - name: Instalar Node.js
-      yum:
-        name: nodejs
+    - name: Instalar Node.js e npm
+      package:
+        name: "{{ item }}"
         state: present
-
-    - name: Instalar npm
-      yum:
-        name: npm
-        state: present
+      loop:
+        - nodejs
+        - npm
 
     - name: Instalar PM2 globalmente
       npm:
@@ -30,16 +28,22 @@
         global: yes
         state: present
 
-    - name: transfer file HTML
-      copy:
-        src: ./index.html
-        dest: /var/www/html/
+    - name: Instalar Git
+      package:
+        name: git
+        state: present
 
-    - name: open port 8080
+
+    - name: Clonar repositório do GitHub
+      git:
+        repo: https://github.com/Jackson-SM/Hockey-Desafio.git
+        dest: /tmp/landing-page
+
+    - name: Abrir porta 8080
       firewalld:
         port: 8080/tcp
         permanent: true
         state: enabled
 
-    - name: Expor arquivo HTML com PM2
-      command: pm2 serve /var/www/html --port 8080
+    - name: Expor aplicação com PM2
+      command: pm2 serve /tmp/landing-page --port 8080 -f
