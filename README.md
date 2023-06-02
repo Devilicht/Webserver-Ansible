@@ -34,6 +34,11 @@ Primeiramente deve usar o:
 ```sh
 git clone https://github.com/Devilicht/Webserver-Ansible
 ```
+Precisa ter uma chava ssh publica em seu SO, caso não tenha voce pode gerar com esse comando:
+```sh
+ssh-keygen
+```
+Tendo uma chave ssh você precisa adicionar ela dentro de um arquivo .env na raiz do projeto, normalmente ela vai ser criada no path=``~/.ssh/id_rsa.pub``.
 Para ter os arquivos em seu diretorio. Em seguida voce precisa "subir" as maquinas virtuais com o comando:
 ```sh
 vagrant up
