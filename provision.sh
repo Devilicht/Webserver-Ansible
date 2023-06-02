@@ -1,8 +1,8 @@
 #!/bin/sh
+if [ -f .env ]; then
+  source .env
+fi
+ 
 cat << EOT >> /home/vagrant/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDe8M8KfGsRNvNQapj+Hqb+Pimhgab3nfb9yloQ09d/KvOkVEWBUZI6qCUAwk8y1f/wctiWJtGsuKm+lYU7KMNzviwu7vk7wtRGLNBne8y4PS9D4bpmhAIuF7y3oy4elSg9voLmS/5Src7Qz0KQmFH20FsrvexSv+AcARfGwYgZrCc01wsBEREqHWwXhn4IGIwfZCBvjiVBavUTX7hfbZKarEe/MUhas9+Ck6JzsUp0y6SqmadS2rXu5O7VhqueRCl2FuGsYwiqfKK0S7IGglg8PrOOfbj48/1WZb/c7lmjfHezlfbVj22Cm86qbgD4O8Mt3Nymo8GOzKLGX0H7XIlRZyYHdJ46IFOw8hbQZoGp6TkFAI+f1Mhz1V4la8kYGNuisEuHSeP9Z1dL4cA3evWL1iZeSnBPZrtgAUo0AiDuuQW+Ri1G3sriWy/DzWHtTYGrdZOFXq33Tb9p40HqDe3AEo0Dx/4fDzg0aEpxg2E+kcoSDEKd1j2pGrpwjYRG+WU= oblivion@oblivion
+$SSH_KEY
 EOT
-
-
-
-
