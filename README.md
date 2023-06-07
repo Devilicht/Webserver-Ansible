@@ -1,50 +1,49 @@
 # Webserver Ansible
-Este projeto consiste em automatizar a criação e configuração de duas máquinas virtuais usando o Vagrant. 
-As máquinas são baseadas na imagem do CentOS 7. Em seguida, o Ansible é usado para provisionar as máquinas virtuais, instalando o Node.js, o npm, o PM2, o Git e clonando um repositório do GitHub.
-Além disso, uma porta de rede é aberta e a aplicação é exposta usando o PM2.
+This project aims to automate the creation and configuration of two virtual machines using Vagrant.
+The machines are based on the CentOS 7 image. Then, Ansible is used to provision the virtual machines by installing Node.js, npm, PM2, Git, and cloning a GitHub repository.
+Additionally, a network port is opened, and the application is exposed using PM2.
 
 ## Steps
 
-> Criação das máquinas virtuais:
+> Creating the virtual machines:
 
-Usamos o Vagrant para criar duas máquinas virtuais web1 e web2. Essas máquinas são baseadas na imagem do CentOS 7 
-e possuem endereços IP privados. A máquina "web1" é acessível na porta 8082 e a máquina "web2" é acessível na porta 8081.
+We use Vagrant to create two virtual machines, web1 and web2. These machines are based on the CentOS 7 image and have private IP addresses. The "web1" machine is accessible on port 8082, and the "web2" machine is accessible on port 8081.
 
-> Provisionamento de software com o Ansible:
+> Software provisioning with Ansible:
 
-Depois que as máquinas virtuais são criadas, usamos o Ansible para provisioná-las. O Ansible executa uma série de tarefas em todas as máquinas virtuais definidas no inventário. As tarefas incluem:
+After the virtual machines are created, we use Ansible to provision them. Ansible performs a series of tasks on all virtual machines defined in the inventory. The tasks include:
 
-- Remoção de um script de instalação do NodeSource, se existir.
-- Download de um script de instalação do NodeSource.
-- Execução do script de instalação do NodeSource para instalar o Node.js e o npm.
-- Instalação do PM2 globalmente usando o npm.
-- Instalação do Git.
-- Clonagem de um repositório do GitHub.
-- Abertura da porta 8080 no firewall.
-- Exposição da aplicação clonada usando o PM2 na porta 8080.
+- Removal of a NodeSource installation script if it exists.
+- Downloading a NodeSource installation script.
+- Running the NodeSource installation script to install Node.js and npm.
+- Installing PM2 globally using npm.
+- Installing Git.
+- Cloning a GitHub repository.
+- Opening port 8080 in the firewall.
+- Exposing the cloned application using PM2 on port 8080.
 
-> Configuração de chaves de autenticação:
+> Configuration of authentication keys:
 
-O arquivo "provision.sh" contém uma chave pública SSH que é adicionada ao arquivo "authorized_keys" do usuário "vagrant" nas máquinas virtuais.
-Isso permite a autenticação SSH sem senha entre a máquina host e as máquinas virtuais.
+The "provision.sh" file contains an SSH public key that is added to the "authorized_keys" file of the "vagrant" user on the virtual machines.
+This enables passwordless SSH authentication between the host machine and the virtual machines.
 
 ## How to use
 
-Primeiramente deve usar o:
+First, clone the repository using the following command:
 ```sh
 git clone https://github.com/Devilicht/Webserver-Ansible
 ```
-Precisa ter uma chava ssh publica em seu SO, caso não tenha voce pode gerar com esse comando:
+You need to have an SSH public key in your operating system. If you don't have one, you can generate it with the following command:
 ```sh
 ssh-keygen
 ```
-Tendo uma chave ssh você precisa adicionar ela dentro de um arquivo .env na raiz do projeto, normalmente ela vai ser criada no path=``~/.ssh/id_rsa.pub``.
-Para ter os arquivos em seu diretorio. Em seguida voce precisa "subir" as maquinas virtuais com o comando:
+Once you have an SSH key, you need to add it to a .env file in the root of the project. Usually, the key will be created at path=~/.ssh/id_rsa.pub.
+To have the files in your directory, you then need to "bring up" the virtual machines with the command:
 ```sh
 vagrant up
 ```
-Depois das maquinas "Subirem" voce ja consegue rodar o playbook com o comando:
+After the machines are "up," you can run the playbook with the command:
 ```sh
 ansible-playbook config-static-server.yaml
 ```
-Ja consegue dar um GET nos ip's das maquinas com a porta ``8080``.
+You can now send a GET request to the IP addresses of the machines with port 8080.
